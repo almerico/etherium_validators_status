@@ -28,7 +28,7 @@ func (app *Config) Validator(w http.ResponseWriter, r *http.Request) {
 	println("VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
-		slog.Info("conf", "key", app.validatorKeys[i])
+		slog.Info("conf", "key", app.validatorKeys[i], " i=", i)
 		models, _ := app.getInfoByKey(app.validatorKeys[i])
 		validatorInfoArray[i] = models
 		// append(validatorInfoArray, models)
