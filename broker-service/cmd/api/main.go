@@ -14,7 +14,7 @@ type Config struct {
 	validatorKeys []string
 }
 
-var validatorKeys []string
+// var validatorKeys []string
 
 func main() {
 	dat, err := os.ReadFile("all_key.txt")
@@ -22,17 +22,18 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	fmt.Print(string(dat))
+	// fmt.Print(string(dat))
 
 	// var validatorKeys []string
-	err = json.Unmarshal(dat, &validatorKeys)
-	fmt.Print(validatorKeys)
+	app := Config{}
+
+	err = json.Unmarshal(dat, &app.validatorKeys)
+	fmt.Printf("Loaded %d keys\n", len(app.validatorKeys))
+	fmt.Println(app.validatorKeys)
 
 	if err != nil {
 		log.Panic(err)
 	}
-	app := Config{}
-	app.validatorKeys = validatorKeys
 
 	log.Printf("Starting broker service on port %s\n", webPort)
 

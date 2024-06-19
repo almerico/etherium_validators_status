@@ -24,8 +24,8 @@ func (app *Config) Validator(w http.ResponseWriter, r *http.Request) {
 	// 	Error:   false,
 	// 	Message: "Hit the broker",
 	// }
-	validatorInfoArray := make([]*models.Info, 11)
-	println("VALIDATOR KEYS=", len(validatorKeys))
+	validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
+	println("VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
 		slog.Info("conf", "key", app.validatorKeys[i])
