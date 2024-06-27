@@ -8,7 +8,7 @@
                 <hr>
                 <a id="brokerBtn" class="btn btn-outline-secondary" href="javascript:void(0);">Request validators status</a>
 
-                <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
+                {{/* <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
                     <span class="text-muted">Output shows here...</span>
                 </div>
             </div>
@@ -19,7 +19,7 @@
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
                     <pre id="payload"><span class="text-muted">Nothing sent yet...</span></pre>
                 </div>
-            </div>
+            </div> */}}
             <div class="col">
                 <h4 class="mt-5">Received</h4>
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
@@ -43,7 +43,7 @@
             method: 'GET',
         }
 
-        fetch("http:\/\/136.243.9.123:8081/validator", body)
+        fetch("http:\/\/validators.almerico.org/:8081/validator", body)
         .then((response) => response.json())
         .then((data) => {
             sent.innerHTML ="empty post request";
