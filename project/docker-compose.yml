@@ -42,6 +42,7 @@ services:
     volumes:
       #- ~/.nginx/:/config/nginx/proxy-confs/
       - ${PWD}/nginx.thingsboard.subdomain.conf:/config/nginx/proxy-confs/thingsboard.subdomain.conf
+      - ${PWD}/nginx.thingsboard.subdomain8081.conf:/config/nginx/proxy-confs/thingsboard8081.subdomain.conf
     ports:
       - 443:443
       - 80:80
