@@ -20,14 +20,14 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
-var validatorInfoArray []*models.Info
+var validatorInfoArray [11]*models.Info
 
 func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 
 	// validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
 	// validatorInfoArray := []*models.Info{}
 
-	validatorInfoArray = validatorInfoArray[:0]
+	// validatorInfoArray = validatorInfoArray[:0]
 	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
@@ -39,7 +39,7 @@ func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		if models != nil {
 			slog.Info("ValidatorHandler", "adding validator", app.validatorKeys[i], "i", i)
-			validatorInfoArray = append(validatorInfoArray, models)
+			validatorInfoArray[i] = models
 			//validatorInfoArray[i] = models
 		}
 	}
