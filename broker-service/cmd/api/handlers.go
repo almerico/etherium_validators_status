@@ -2,12 +2,12 @@ package main
 
 import (
 	"broker/models"
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
 	"log/slog"
 	"net/http"
+	"time"
 )
 
 func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
@@ -49,16 +49,21 @@ func (app *Config) getInfoByKey(key string) (*models.Info, error) {
 
 	slog.Info("url to auth manager", "url", url)
 
-	req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
+	client := http.Client{
+		Timeout: 5 * time.Second,
+	}
+	resp, err := client.Get(url)
+
+	// req, err := http.NewRequestWithContext(context.Background(), http.MethodGet, url, nil)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := http.DefaultClient.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
+	// resp, err := http.DefaultClient.Do(req)
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		err := fmt.Errorf("failed ot get user credentials %v", resp.StatusCode)
