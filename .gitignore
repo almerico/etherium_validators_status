@@ -2,3 +2,5 @@ all_keys.txt
 broker-service/brokerApp
 front-end/frontApp
 broker-service/all_key.txt
+broker-service/cmd/api/all_key.txt
+broker-service/cmd/api/__debug_bin2791049308

@@ -18,20 +18,25 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
-func (app *Config) Validator(w http.ResponseWriter, r *http.Request) {
+func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 
-	// payload := jsonResponse{
-	// 	Error:   false,
-	// 	Message: "Hit the broker",
-	// }
-	validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
-	println("VALIDATOR KEYS=", len(app.validatorKeys))
+	// validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
+	validatorInfoArray := []*models.Info{}
+
+	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
-		slog.Info("conf", "key", app.validatorKeys[i], " i=", i)
-		models, _ := app.getInfoByKey(app.validatorKeys[i])
-		validatorInfoArray[i] = models
-		// append(validatorInfoArray, models)
+		// slog.Info("ValidatorHandler", "key", app.validatorKeys[i], "i", i)
+		models, err := app.getInfoByKey(app.validatorKeys[i])
+
+		if err != nil {
+			slog.Error("getInfoByKey return nill for", "key", app.validatorKeys[i])
+		}
+		if models != nil {
+			slog.Info("ValidatorHandler", "adding validator", app.validatorKeys[i], "i", i)
+			validatorInfoArray = append(validatorInfoArray, models)
+			//validatorInfoArray[i] = models
+		}
 	}
 	app.writeJSON(w, http.StatusOK, validatorInfoArray)
 }

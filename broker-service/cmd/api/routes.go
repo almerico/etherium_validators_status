@@ -24,7 +24,7 @@ func (app *Config) routes() http.Handler {
 	mux.Use(middleware.Heartbeat("/ping"))
 
 	mux.Post("/", app.Broker)
-	mux.Get("/validator", app.Validator)
+	mux.Get("/validator", app.ValidatorHandler)
 
 	return mux
 }
