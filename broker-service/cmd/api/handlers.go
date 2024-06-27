@@ -27,6 +27,7 @@ func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 	// validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
 	// validatorInfoArray := []*models.Info{}
 
+	validatorInfoArray = validatorInfoArray[:0]
 	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
