@@ -13,16 +13,15 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
-            {{/* <div class="col">
+            <div class="col">
                 <h4 class="mt-5">Sent</h4>
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
                     <pre id="payload"><span class="text-muted">Nothing sent yet...</span></pre>
                 </div>
-            </div> */}}
+            </div>
             <div class="col">
-                <h4 class="mt-5">Received </h4>
+                <h4 class="mt-5">Received</h4>
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
                     <pre id="received"><span class="text-muted">Nothing received yet...</span></pre>
                 </div>
@@ -44,26 +43,35 @@
             method: 'GET',
         }
 
-        fetch("https:\/\/validators.almerico.org/api/validators", body)
+        fetch("https:\/\/validators.almerico.org/api/validator", body)
         .then((response) => response.json())
         .then((data) => {
-            {{/* sent.innerHTML ="empty post request"; */}}
+            sent.innerHTML ="empty post request";
             received.innerHTML = JSON.stringify(data, undefined, 4);
-            {{/* if (data.error) {
+            if (data.error) {
                 console.log(data.message);
             } else {
                 output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`;
-            } */}}
+            }
         })
         .catch((error) => {
-            {{/* output.innerHTML += "<br><br>Eror: " + error; */}}
-            console.log("Error"+err)
+            output.innerHTML += "<br><br>Eror: " + error;
         })
-        fetch("https:\/\/validators.almerico.org/api/validators_status", body)
+        fetch("https:\/\/validators.almerico.org/api/validator_status", body)
         .then((response) => response.json())
         .then((data) => {
-            {{/* sent.innerHTML ="empty post request"; */}}
+            sent.innerHTML ="empty post request";
             output.innerHTML = JSON.stringify(data, undefined, 4);
+            if (data.error) {
+                console.log(data.message);
+            } else {
+                output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`;
+            }
+        })
+        .catch((error) => {
+            output.innerHTML += "<br><br>Eror: " + error;
+        })
+
     })
     </script>
 {{end}}
