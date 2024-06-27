@@ -46,16 +46,17 @@
         fetch("https:\/\/validators.almerico.org/api/validators", body)
         .then((response) => response.json())
         .then((data) => {
-            sent.innerHTML ="empty post request";
+            {{/* sent.innerHTML ="empty post request"; */}}
             received.innerHTML = JSON.stringify(data, undefined, 4);
-            if (data.error) {
+            {{/* if (data.error) {
                 console.log(data.message);
             } else {
                 output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`;
-            }
+            } */}}
         })
         .catch((error) => {
-            output.innerHTML += "<br><br>Eror: " + error;
+            {{/* output.innerHTML += "<br><br>Eror: " + error; */}}
+            console.log("Error"+error)
         })
     })
     </script>
