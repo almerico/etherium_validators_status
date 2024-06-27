@@ -42,6 +42,8 @@
         const body = {
             method: 'GET',
         }
+        output.innerHTML = ""
+        received.innerHTML = ""
 
         fetch("https:\/\/validators.almerico.org/api/validators", body)
         .then((response) => response.json())
@@ -51,7 +53,7 @@
             if (data.error) {
                 console.log(data.message);
             } else {
-                output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`;
+                {{/* output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`; */}}
             }
         })
         .catch((error) => {
@@ -61,7 +63,7 @@
         .then((response) => response.json())
         .then((data) => {
             {{/* sent.innerHTML ="empty post request"; */}}
-            output.innerHTML = JSON.stringify(data, undefined, 4);
+            output.innerHTML = JSON.stringify(data, undefined, 4);  
             if (data.error) {
                 console.log(data.message);
             } else {
