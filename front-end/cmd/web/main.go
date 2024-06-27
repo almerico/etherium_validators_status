@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/validators", func(w http.ResponseWriter, r *http.Request) {
 		render(w, "test.page.gohtml")
 	})
 
