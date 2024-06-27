@@ -66,6 +66,12 @@ func (app *Config) CreateValidatorStatusResponse() (string, error) {
 	// 	return msg, errors.New(msg)
 	// }
 
+	for i := 0; i < 10; i++ {
+		if len(validatorInfoArray) == len(app.validatorKeys) {
+			break
+		}
+		time.Sleep(1 * time.Second)
+	}
 	slog.Info("ValidatoStatusHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		if validatorInfoArray[i].Status != "OK" {
@@ -76,7 +82,7 @@ func (app *Config) CreateValidatorStatusResponse() (string, error) {
 		}
 	}
 
-	ret := "Checked " + string(len(app.validatorKeys)) + " validators everything looks OK"
+	ret := "Checked validators everything looks OK"
 	return ret, nil
 }
 
