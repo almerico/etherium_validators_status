@@ -3,6 +3,7 @@ package main
 import (
 	"broker/models"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -18,10 +19,13 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
+
+var validatorInfoArray []*models.Info
+
 func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 
 	// validatorInfoArray := make([]*models.Info, len(app.validatorKeys))
-	validatorInfoArray := []*models.Info{}
+	// validatorInfoArray := []*models.Info{}
 
 	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
@@ -39,6 +43,39 @@ func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	app.writeJSON(w, http.StatusOK, validatorInfoArray)
+}
+
+func (app *Config) ValidatorStatusHandler(w http.ResponseWriter, r *http.Request) {
+	payload := jsonResponse{
+		Error:   false,
+		Message: "Hit the broker",
+	}
+	msg, err := app.CreateValidatorStatusResponse()
+	payload.Message = msg
+	if err != nil {
+		payload.Error = true
+		app.writeJSON(w, http.StatusBadRequest, payload)
+	} else {
+		app.writeJSON(w, http.StatusOK, payload)
+	}
+}
+func (app *Config) CreateValidatorStatusResponse() (string, error) {
+	if len(validatorInfoArray) != len(app.validatorKeys) {
+		return string("Not all validators checked"), errors.New("Not all validators checked")
+	}
+
+	slog.Info("ValidatoStatusHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
+	for i := 0; i < len(app.validatorKeys); i++ {
+		if validatorInfoArray[i].Status != "OK" {
+			return string("Validator status is not OK "), errors.New("Validator status is not OK")
+		}
+		if validatorInfoArray[i].Data.Status != "active_online" {
+			return string("Validator status is has to be active_online but  got" + validatorInfoArray[i].Data.Status), errors.New("Validator status is has to be active_online")
+		}
+	}
+
+	ret := "Checked " + string(len(app.validatorKeys)) + " validators everything looks OK"
+	return ret, nil
 }
 
 // GetCredentials implements Api.

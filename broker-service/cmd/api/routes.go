@@ -25,6 +25,7 @@ func (app *Config) routes() http.Handler {
 
 	mux.Post("/", app.Broker)
 	mux.Get("/api/validators", app.ValidatorHandler)
+	mux.Get("/api/validators_status", app.ValidatorStatusHandler)
 
 	return mux
 }

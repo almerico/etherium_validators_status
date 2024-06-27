@@ -8,20 +8,21 @@
                 <hr>
                 <a id="brokerBtn" class="btn btn-outline-secondary" href="javascript:void(0);">Request validators status</a>
 
-                {{/* <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
+                <div id="output" class="mt-5" style="outline: 1px solid silver; padding: 2em;">
                     <span class="text-muted">Output shows here...</span>
                 </div>
             </div>
         </div>
+
         <div class="row">
-            <div class="col">
+            {{/* <div class="col">
                 <h4 class="mt-5">Sent</h4>
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
                     <pre id="payload"><span class="text-muted">Nothing sent yet...</span></pre>
                 </div>
             </div> */}}
             <div class="col">
-                <h4 class="mt-5">Received</h4>
+                <h4 class="mt-5">Received </h4>
                 <div class="mt-1" style="outline: 1px solid silver; padding: 2em;">
                     <pre id="received"><span class="text-muted">Nothing received yet...</span></pre>
                 </div>
@@ -56,8 +57,13 @@
         })
         .catch((error) => {
             {{/* output.innerHTML += "<br><br>Eror: " + error; */}}
-            console.log("Error"+error)
+            console.log("Error"+err)
         })
+        fetch("https:\/\/validators.almerico.org/api/validators_status", body)
+        .then((response) => response.json())
+        .then((data) => {
+            {{/* sent.innerHTML ="empty post request"; */}}
+            output.innerHTML = JSON.stringify(data, undefined, 4);
     })
     </script>
 {{end}}
