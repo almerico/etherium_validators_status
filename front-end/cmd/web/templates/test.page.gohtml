@@ -43,7 +43,7 @@
             method: 'GET',
         }
 
-        fetch("http:\/\/validators.almerico.org/:8081/validator", body)
+        fetch("http:\/\/validators.almerico.org:8081/validator", body)
         .then((response) => response.json())
         .then((data) => {
             sent.innerHTML ="empty post request";
