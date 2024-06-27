@@ -60,10 +60,10 @@ func (app *Config) ValidatorStatusHandler(w http.ResponseWriter, r *http.Request
 	}
 }
 func (app *Config) CreateValidatorStatusResponse() (string, error) {
-	if len(validatorInfoArray) != len(app.validatorKeys) {
-		msg := "validators checked " + string(len(validatorInfoArray)) + " validator in initial list" + string(len(app.validatorKeys))
-		return msg, errors.New(msg)
-	}
+	// if len(validatorInfoArray) != len(app.validatorKeys) {
+	// 	msg := "validators checked " + string(len(validatorInfoArray)) + " validator in initial list" + string(len(app.validatorKeys))
+	// 	return msg, errors.New(msg)
+	// }
 
 	slog.Info("ValidatoStatusHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
