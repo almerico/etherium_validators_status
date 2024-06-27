@@ -18,4 +18,5 @@ RUN mkdir /app
 
 COPY --from=builder /app/brokerApp /app
 COPY all_key.txt /all_key.txt
+EXPOSE 8081
 CMD [ "/app/brokerApp" ]

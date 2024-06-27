@@ -8,7 +8,7 @@ services:
       dockerfile: ./../broker-service/broker-service.dockerfile
     restart: always
     ports:
-      - "8081:80"
+      - "8081:8081"
     deploy:
       mode: replicated
       replicas: 1
@@ -18,7 +18,7 @@ services:
       dockerfile: ./../front-end/broker-service.dockerfile
     restart: always
     ports:
-      - "81:80"
+      - "81:81"
     deploy:
       mode: replicated
       replicas: 1

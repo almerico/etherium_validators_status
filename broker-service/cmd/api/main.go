@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-const webPort = "80"
+const webPort = "8081"
 
 type Config struct {
 	validatorKeys []string

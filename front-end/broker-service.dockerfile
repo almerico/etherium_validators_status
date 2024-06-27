@@ -10,4 +10,5 @@ WORKDIR /app
 RUN CGO_ENABLED=0 go build -o brokerApp ./cmd/web
 
 RUN chmod +x /app/brokerApp
+EXPOSE 81
 CMD [ "/app/brokerApp" ]
