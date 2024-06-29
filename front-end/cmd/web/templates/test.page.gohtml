@@ -63,15 +63,18 @@
         .then((response) => response.json())
         .then((data) => {
             {{/* sent.innerHTML ="empty post request"; */}}
-            output.innerHTML = JSON.stringify(data, undefined, 4);  
+            {{/* output.innerHTML = JSON.stringify(data, undefined, 4);   */}}
             if (data.error) {
                 console.log(data.message);
+                output.style.backgroundColor = 'red'
             } else {
                 output.innerHTML += `<br><strong>Response from broker service</strong>: ${data.message}`;
+                output.style.backgroundColor = 'green'
             }
         })
         .catch((error) => {
             output.innerHTML += "<br><br>Eror: " + error;
+            output.style.backgroundColor = 'red'
         })
 
     })
