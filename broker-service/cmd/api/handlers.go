@@ -84,7 +84,7 @@ func (app *Config) CreateValidatorStatusResponse() (string, error) {
 		}
 	}
 	t1 := time.Now()
-	ret := "Validators are ACTIVE checked at " + t1.String()
+	ret := "Validators are ACTIVE checked at " + t1.Format("DDMMYYYYhhmmss")
 	return ret, nil
 }
 
