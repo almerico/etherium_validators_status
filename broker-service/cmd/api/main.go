@@ -1,6 +1,7 @@
 package main
 
 import (
+	"broker/models"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -11,7 +12,8 @@ import (
 const webPort = "8081"
 
 type Config struct {
-	validatorKeys []string
+	validatorKeys      []string
+	validatorInfoArray [11]*models.Info
 }
 
 // var validatorKeys []string
