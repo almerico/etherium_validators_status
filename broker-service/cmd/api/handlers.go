@@ -126,3 +126,4 @@ func (app *Config) getInfoByKey(key string) (*models.Info, error) {
 	return creds, nil
 
 }
+

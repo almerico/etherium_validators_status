@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/robfig/cron"
 )
 
 const webPort = "8081"
@@ -38,6 +40,9 @@ func main() {
 	}
 
 	log.Printf("Starting broker service on port %s\n", webPort)
+	c := cron.New()
+	c.AddFunc("*/5 * * * * *", func() { fmt.Println("Testing every 5 seconds.") })
+	c.Start()
 
 	// define http server
 	srv := http.Server{
