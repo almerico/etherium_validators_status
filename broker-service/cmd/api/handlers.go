@@ -83,8 +83,10 @@ func (app *Config) CreateValidatorStatusResponse() (string, error) {
 			return string("Validator status is has to be active_online but  got" + app.validatorInfoArray[i].Data.Status + " for " + app.validatorInfoArray[i].Data.Pubkey), errors.New("Exception")
 		}
 	}
-	t1 := time.Now()
-	ret := "Validators are ACTIVE checked at " + t1.Format("DDMMYYYYhhmmss")
+	t := time.Now()
+	ret := "Validators are ACTIVE checked at "
+	formatted := fmt.Sprintf("%d-%02d-%02dT%02d:%02d:%02d", t.Year(), t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
+	ret = ret + formatted
 	return ret, nil
 }
 
