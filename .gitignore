@@ -9,3 +9,6 @@ broker-service/cmd/api/__debug_bin3703117765
 broker-service/cmd/api/__debug_bin1580774071
 
 broker-service/cmd/api/__debug_bin3898302100
+
+
+broker-service/cmd/api/send_email.go

@@ -42,6 +42,7 @@ func (app *Config) CheckValidatorsJob() {
 	msg, err := app.CheckValidatorsArrays()
 	if err != nil {
 		slog.Error("Error during validator check" + msg)
+		send_email(msg)
 	}
 }
 

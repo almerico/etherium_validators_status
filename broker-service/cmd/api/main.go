@@ -18,17 +18,12 @@ type Config struct {
 	validatorInfoArray [11]*models.Info
 }
 
-// var validatorKeys []string
-
 func main() {
 	dat, err := os.ReadFile("all_key.txt")
 
 	if err != nil {
 		log.Panic(err)
 	}
-	// fmt.Print(string(dat))
-
-	// var validatorKeys []string
 	app := Config{}
 
 	err = json.Unmarshal(dat, &app.validatorKeys)
@@ -38,13 +33,11 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
-	send_mail("Test")
 
 	log.Printf("Starting broker service on port %s\n", webPort)
 	c := cron.New()
 	// c.AddFunc("*/5 * * * * *", func() { fmt.Println("Testing every 5 seconds.") })
-	c.AddFunc("*/60 * * * * *", app.CheckValidatorsJob)
-
+	c.AddFunc("*/600 * * * * *", app.CheckValidatorsJob)
 	c.Start()
 
 	// define http server
