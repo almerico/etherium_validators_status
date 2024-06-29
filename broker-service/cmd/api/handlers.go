@@ -23,17 +23,25 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 func (app *Config) getValidatorsArray() {
 	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
-		// if i == 0 {
-		// slog.Info("ValidatorHandler", "key", app.validatorKeys[i], "i", i)
-		models, err := app.getValidatorInfoFromApi(app.validatorKeys[i])
 
-		if err != nil {
-			slog.Error("getInfoByKey return nill for", "key", app.validatorKeys[i])
+		var modelsVar *models.Info
+		var err error
+		for ii := 0; ii < 5; ii++ {
+			modelsVar, err = app.getValidatorInfoFromApi(app.validatorKeys[i])
+			if err != nil {
+				slog.Error("getInfoByKey return nil for RETRYING", "key", app.validatorKeys[i])
+				time.Sleep(1 * time.Second)
+			} else {
+				break
+			}
+
 		}
-		if models != nil {
+		if modelsVar != nil {
 			slog.Info("ValidatorHandler", "adding validator", app.validatorKeys[i], "i", i)
-			app.validatorInfoArray[i] = models
+			app.validatorInfoArray[i] = modelsVar
 			//validatorInfoArray[i] = models
+		} else {
+			slog.Error("ValidatorHandler", "error fetching validator", app.validatorKeys[i], "i", i)
 		}
 	}
 }
@@ -71,18 +79,18 @@ func (app *Config) ValidatorStatusHandler(w http.ResponseWriter, r *http.Request
 	}
 }
 func (app *Config) CheckValidatorsArrays() (string, error) {
+
+	// for i := 0; i < 10; i++ {
+	// 	if len(app.validatorInfoArray) == len(app.validatorKeys) {
+	// 		break
+	// 	}
+	// 	time.Sleep(1 * time.Second)
+	// }
 	if len(app.validatorInfoArray) != len(app.validatorKeys) {
 		msg := "validators checked " + string(len(app.validatorInfoArray)) + " validator in initial list" + string(len(app.validatorKeys))
 		return msg, errors.New("")
 	}
-
-	for i := 0; i < 10; i++ {
-		if len(app.validatorInfoArray) == len(app.validatorKeys) {
-			break
-		}
-		time.Sleep(1 * time.Second)
-	}
-	slog.Info("ValidatorStatusHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
+	slog.Info("CheckValidatorsArrays", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		if app.validatorInfoArray[i].Status != "OK" {
 			return string("Validator status is not OK for " + app.validatorInfoArray[i].Data.Pubkey), errors.New("Exception")
@@ -107,7 +115,7 @@ func (app *Config) getValidatorInfoFromApi(key string) (*models.Info, error) {
 	slog.Info("url to auth manager", "url", url)
 
 	client := http.Client{
-		Timeout: 5 * time.Second,
+		Timeout: 7 * time.Second,
 	}
 	resp, err := client.Get(url)
 	if err != nil {
@@ -115,7 +123,7 @@ func (app *Config) getValidatorInfoFromApi(key string) (*models.Info, error) {
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		err := fmt.Errorf("failed ot get user credentials %v", resp.StatusCode)
+		err := fmt.Errorf("failed to get validator  %v", resp.StatusCode)
 		return nil, err
 	}
 
@@ -130,7 +138,7 @@ func (app *Config) getValidatorInfoFromApi(key string) (*models.Info, error) {
 		return nil, err
 	}
 
-	slog.Info("tegetInfoByKeyt", "unmarshal", creds)
+	slog.Info("getValidatorInfoFromApi", "unmarshal", creds)
 	return creds, nil
 
 }
