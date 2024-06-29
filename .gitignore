@@ -3,8 +3,9 @@ broker-service/brokerApp
 front-end/frontApp
 broker-service/all_key.txt
 broker-service/cmd/api/all_key.txt
-broker-service/cmd/api/__debug_bin2791049308
-
+broker-service/cmd/api/__debug_bin*
 broker-service/cmd/api/__debug_bin3703117765
 
 broker-service/cmd/api/__debug_bin1580774071
+
+broker-service/cmd/api/__debug_bin3898302100

@@ -20,12 +20,12 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
-func (app *Config) getValidatorStatus() {
+func (app *Config) getValidatorsArray() {
 	slog.Info("ValidatorHandler", "VALIDATOR KEYS=", len(app.validatorKeys))
 	for i := 0; i < len(app.validatorKeys); i++ {
 		// if i == 0 {
 		// slog.Info("ValidatorHandler", "key", app.validatorKeys[i], "i", i)
-		models, err := app.getInfoByKey(app.validatorKeys[i])
+		models, err := app.getValidatorInfoFromApi(app.validatorKeys[i])
 
 		if err != nil {
 			slog.Error("getInfoByKey return nill for", "key", app.validatorKeys[i])
@@ -37,6 +37,13 @@ func (app *Config) getValidatorStatus() {
 		}
 	}
 }
+func (app *Config) CheckValidatorsJob() {
+	app.getValidatorsArray()
+	msg, err := app.CheckValidatorsArrays()
+	if err != nil {
+		slog.Error("Error during validator check" + msg)
+	}
+}
 
 func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 
@@ -44,7 +51,7 @@ func (app *Config) ValidatorHandler(w http.ResponseWriter, r *http.Request) {
 	// validatorInfoArray := []*models.Info{}
 
 	// validatorInfoArray = validatorInfoArray[:0]
-	app.getValidatorStatus()
+	app.getValidatorsArray()
 	app.writeJSON(w, http.StatusOK, app.validatorInfoArray)
 }
 
@@ -53,7 +60,7 @@ func (app *Config) ValidatorStatusHandler(w http.ResponseWriter, r *http.Request
 		Error:   false,
 		Message: "Hit the broker",
 	}
-	msg, err := app.CreateValidatorStatusResponse()
+	msg, err := app.CheckValidatorsArrays()
 	payload.Message = msg
 	if err != nil {
 		payload.Error = true
@@ -62,7 +69,7 @@ func (app *Config) ValidatorStatusHandler(w http.ResponseWriter, r *http.Request
 		app.writeJSON(w, http.StatusOK, payload)
 	}
 }
-func (app *Config) CreateValidatorStatusResponse() (string, error) {
+func (app *Config) CheckValidatorsArrays() (string, error) {
 	if len(app.validatorInfoArray) != len(app.validatorKeys) {
 		msg := "validators checked " + string(len(app.validatorInfoArray)) + " validator in initial list" + string(len(app.validatorKeys))
 		return msg, errors.New("")
@@ -91,7 +98,7 @@ func (app *Config) CreateValidatorStatusResponse() (string, error) {
 }
 
 // GetCredentials implements Api.
-func (app *Config) getInfoByKey(key string) (*models.Info, error) {
+func (app *Config) getValidatorInfoFromApi(key string) (*models.Info, error) {
 
 	// key := "0xa94ed867357ed9165a5ed10c10be9961b08430bf52eec53a0de6768f5b23c0077038d7ecb8da7cdfb6dc36d3816f830a"
 	url := fmt.Sprintf("https://beaconcha.in/api/v1/validator/%s", key)
@@ -126,4 +133,3 @@ func (app *Config) getInfoByKey(key string) (*models.Info, error) {
 	return creds, nil
 
 }
-
